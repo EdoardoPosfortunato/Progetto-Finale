@@ -1,0 +1,31 @@
+li {
+  transition: transform 0.3s ease;
+}
+
+li:hover {
+  transform: scale(1.10);
+}
+
+.color-sidebar {
+  background-color: #A4B465;
+}
+
+.nav-link {
+    list-style-type: none;
+    color: rgb(255, 255, 255);
+    font-size: large;
+    font-size: 1.2rem;     /* oppure usa px: es. 18px */
+  font-weight: bold;
+}
+
+.nav-hover-black:hover {
+    color: #394129 !important;
+    text-decoration: none;
+}
+
+.nav-link:focus {
+    color: #394129 !important;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
