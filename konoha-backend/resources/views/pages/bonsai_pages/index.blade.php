@@ -4,24 +4,45 @@
 
     <div class="container my-5">
         <h1 class="display-6 text-center fs-1 fw-bold my-5">
-            @isset($species)
-                Bonsai della specie: {{ $species->nome_comune }}
+            @if (isset($species))
+                Bonsai della specie: {{ $species->nome }}
+            @elseif (isset($tipologies))
+                Bonsai della tipologia: {{ $tipologies->nome }}
             @else
                 Lista Bonsai
-            @endisset
+            @endif
         </h1>
 
+        @if (session('warning'))
+            <div class="alert alert-danger mt-3">
+                {{ session('warning') }}
+            </div>
+        @endif
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <div class="d-flex align-items-center">
+                <form action="{{ route('bonsai.index') }}" method="GET" class="d-flex justify-content-center align-items-center mb-3 gap-2"
+                    role="search">
+                    <div class="input-group" style="max-width: 500px;">
+                        <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Cerca ...">
+                    </div>
+                    <button class=" btn btn-outline-success d-flex" type="submit">
+                    <i class="bi bi-search"></i> Cerca
+                    </button>
+                </form>
+            </div>
 
-        <div class="d-flex justify-content-center mb-4">
-            <a href="{{ route('bonsai.create') }}" class="btn btn-outline-success btn-lg">
-                <i class="bi bi-plus-lg"></i> Aggiungi Bonsai
-            </a>
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{{ route('bonsai.create') }}" class="btn btn-success"> 
+                    <i class="bi bi-plus-lg"></i> Aggiungi Bonsai
+                </a>
+            </div>
+
         </div>
         <ul class="list-group list-group-flush mt-5">
 
 
             @foreach ($bonsais as $bonsai)
-                <div class="card mb-3 shadow-sm">
+                <div class="card mb-3 shadow-sm max-hight-10px">
                     <div class="row g-0 align-items-stretch">
                         {{-- Immagine cliccabile --}}
                         <div class="col-md-3">
@@ -38,7 +59,21 @@
                             style="cursor: pointer;">
                             <div class="card-body d-flex flex-column justify-content-around h-100">
                                 <h5 class="card-title mb-1">{{ $bonsai->nome }}</h5>
-                                <p class="card-text">{{ $bonsai->descrizione }}</p>
+                                <div>
+                                    <p class="card-text"><span class="fst-italic">specie:</span> {{ $bonsai->species->nome }}
+                                    </p>
+                                    <p class="card-text"><span class="fst-italic">tipologia</span>
+                                        @foreach ($bonsai->tipologies as $tipology)
+                                            <span class="badge text-bg-light
+                                                                                            @if(isset($tipologies) && $tipology->id === $tipologies->id)
+                                                                                                border border-primary text-primary fw-bold
+                                                                                            @endif">
+                                                {{ $tipology->nome }}
+                                            </span>
+                                        @endforeach
+                                    </p>
+                                    <p class="card-text">{{ $bonsai->descrizione }}</p>
+                                </div>
                                 <p class="card-text fw-bold text-success">Prezzo: {{ $bonsai->prezzo }} $</p>
                             </div>
                         </div>

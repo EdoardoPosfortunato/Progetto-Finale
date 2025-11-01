@@ -14,13 +14,24 @@ class BonsaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-        $bonsais = Bonsai::with(['species', 'tipologies'])->get();
+    public function index(Request $request)
+{
+    $query = Bonsai::query()->with(['species', 'tipologies']);
 
-        return view("pages.bonsai_pages.index", compact("bonsais"));
+    // Se c'è un termine di ricerca
+    if ($request->filled('q')) {
+        $search = $request->input('q');
+        $query->where(function ($q) use ($search) {
+            $q->where('nome', 'like', "%{$search}%")
+              ->orWhere('descrizione', 'like', "%{$search}%");
+        });
     }
+
+    $bonsais = $query->get();
+
+    return view('pages.bonsai_pages.index', compact('bonsais'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -142,11 +153,34 @@ class BonsaiController extends Controller
         return redirect()->route('bonsai.bonsai_pages.index')->with('success', 'Bonsai eliminato con successo!');
     }
 
-    public function bySpecie(Species $species)
-{
-    $bonsais = Bonsai::where('species_id', $species->id)->get();
+public function bySpecie(Species $species)
+    {
+        $bonsais = Bonsai::where('species_id', $species->id)->get();
 
-    return view('pages.bonsai_pages.index', compact('bonsais', 'species'));
-}
+        // Se non ci sono risultati, redirect all'index
+        if ($bonsais->isEmpty()) {
+            return redirect()
+                ->route('bonsai.index')
+                ->with('warning', "Nessun bonsai trovato per la specie '{$species->nome}'.");
+        }
+
+        return view('pages.bonsai_pages.index', compact('bonsais', 'species'));
+    }
+
+    public function byTipology(Tipology $tipologies)
+    {
+        $bonsais = $tipologies->bonsais;
+
+
+        // Se non ci sono risultati, redirect all'index
+        if ($bonsais->isEmpty()) {
+            return redirect()
+                ->route('bonsai.index')
+                ->with('warning', "Nessun bonsai trovato per la tipologia '{$tipologies->nome}'.");
+        }
+
+        return view('pages.bonsai_pages.index', compact('bonsais', 'tipologies'));
+    }
+
 
 }

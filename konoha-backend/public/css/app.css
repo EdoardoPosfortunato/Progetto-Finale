@@ -1,2 +1,9 @@
 @import url('styles/navbar.css');
 @import url('styles/welcome.css');
+
+.card img {
+  width: 100%;
+  max-height: 250px !important; /* o 250px, a seconda del layout */
+  object-fit: cover;
+  object-position: center;
+}
