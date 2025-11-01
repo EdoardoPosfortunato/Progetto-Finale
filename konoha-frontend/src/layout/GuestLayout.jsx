@@ -14,14 +14,14 @@ function GuestLayout() {
       <Navbar />
 
       {/* Contenuto sotto la navbar */}
-      <div className="row m-0 vh-100" >
+      <div className="row m-0 vh-100 main-content" >
         {/* Outlet a sinistra */}
 
         {/* Sidebar a destra */}
-        <div className="col-md-3 col-lg-2 col-sm-0 border-start d-flex justify-content-start align-items-center color-sidebar sfondo-sfumato">
+        {/* <div className="col-md-3 col-lg-2 col-sm-0 border-start d-flex justify-content-start align-items-center color-sidebar sfondo-sfumato">
           <Sidebar />
-        </div>
-        <div className="col-md-9 col-lg-10 p-4 overflow-auto">
+        </div> */}
+        <div className="col-md-9 col-lg-10 p-4 overflow-auto container">
           <Outlet />
         </div>
       </div>

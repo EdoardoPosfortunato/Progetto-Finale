@@ -1,4 +1,8 @@
 .sfondo-sfumato {
   /* background: linear-gradient(90deg, #394129, #ffffff); */
+}
 
+.main-content {
+  min-height: 100vh;
+  padding-top: 75px; /* o l'altezza effettiva della tua navbar */
 }

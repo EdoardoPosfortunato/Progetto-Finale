@@ -39,14 +39,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bonsai $bonsai)
-    {
+public function show(Bonsai $bonsai)
+{
+    $bonsai->load(['species', 'tipologies']);
 
-        return response()->json([
-            'success' => true,
-            'data' => $bonsai->load('species', 'tipologies')
-        ]);
-    }
+    return response()->json($bonsai);
+}
+
+
 
     /**
      * Show the form for editing the specified resource.

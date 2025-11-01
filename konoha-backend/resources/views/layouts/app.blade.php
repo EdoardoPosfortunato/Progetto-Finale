@@ -7,9 +7,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="{{ asset('storage/icon2.png') }}" type="image/png">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>Konoa</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
