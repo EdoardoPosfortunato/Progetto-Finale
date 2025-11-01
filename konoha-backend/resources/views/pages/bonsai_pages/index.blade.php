@@ -3,12 +3,14 @@
 @section('content')
 
     <div class="container my-5">
-        <h1 class="display-6 text-center fs-1 fw-bold my-5">Lista Bonsai</h1>
-        @if(isset($species))
-            <h2 class="text-center text-muted mb-3">
-                Bonsai della specie: <strong>{{ $species->nome_comune }}</strong>
-            </h2>
-        @endif
+        <h1 class="display-6 text-center fs-1 fw-bold my-5">
+            @isset($species)
+                Bonsai della specie: {{ $species->nome_comune }}
+            @else
+                Lista Bonsai
+            @endisset
+        </h1>
+
 
         <div class="d-flex justify-content-center mb-4">
             <a href="{{ route('bonsai.create') }}" class="btn btn-outline-success btn-lg">

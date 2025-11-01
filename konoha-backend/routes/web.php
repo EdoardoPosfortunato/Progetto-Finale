@@ -29,7 +29,7 @@ Route::resource('bonsai', BonsaiController::class)->middleware(['auth', 'verifie
 Route::resource('species', SpeciesController::class)->middleware(['auth', 'verified']);
 Route::resource('tipology', TipologyController::class)->middleware(['auth', 'verified']);
 
-Route::get('/bonsai/specie/{species}', [BonsaiController::class, 'bySpecie'])->name('bonsai.bySpecie');
+Route::get('/bonsai/prova/{specie}', [BonsaiController::class, 'bySpecie'])->name('bonsai.bySpecie');
 
 
 require __DIR__.'/auth.php';
