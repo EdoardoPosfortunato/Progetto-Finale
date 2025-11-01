@@ -19,7 +19,7 @@ class BonsaiController extends Controller
         //
         $bonsais = Bonsai::with(['species', 'tipologies'])->get();
 
-        return view("pages.index", compact("bonsais"));
+        return view("pages.bonsai_pages.index", compact("bonsais"));
     }
 
     /**
@@ -31,7 +31,7 @@ class BonsaiController extends Controller
         $tipologies = Tipology::all();
         $species = Species::all();
 
-        return view('pages.create', compact('tipologies', 'species'));
+        return view('pages.bonsai_pages.create', compact('tipologies', 'species'));
     }
 
     /**
@@ -80,7 +80,7 @@ class BonsaiController extends Controller
 
         // dd( $species );
 
-        return view('pages.show', compact('bonsai', 'species', 'tipologies'));
+        return view('pages.bonsai_pages.show', compact('bonsai', 'species', 'tipologies'));
     }
 
     /**
@@ -91,7 +91,7 @@ class BonsaiController extends Controller
         $tipologies = Tipology::all();
         $species = Species::all();
 
-        return view('pages.update', compact('bonsai', 'species', 'tipologies'));
+        return view('pages.bonsai_pages.update', compact('bonsai', 'species', 'tipologies'));
 
 
     }
@@ -139,6 +139,14 @@ class BonsaiController extends Controller
         $bonsai->tipologies()->detach();
         $bonsai->delete();
 
-        return redirect()->route('bonsai.index')->with('success', 'Bonsai eliminato con successo!');
+        return redirect()->route('bonsai.bonsai_pages.index')->with('success', 'Bonsai eliminato con successo!');
     }
+
+    public function bySpecie(Species $species)
+{
+    $bonsais = Bonsai::where('species_id', $species->id)->get();
+
+    return view('pages.bonsai_pages.index', compact('bonsais', 'species'));
+}
+
 }

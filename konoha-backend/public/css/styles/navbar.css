@@ -1,4 +1,17 @@
-
 .sfondo-verde {
-    background-color: #4CAF50 !important; /* Verde */
+    background-color: #375831 !important; /* Verde */
+    color: white !important;
+}
+
+.navbar-brand {
+    background-color: #375831; /* Verde */
+    color: white !important;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.navbar{
+    color: white !important;
 }

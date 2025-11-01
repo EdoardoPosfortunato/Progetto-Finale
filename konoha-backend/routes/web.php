@@ -1,11 +1,18 @@
 <?php
 
 use App\Http\Controllers\Admin\BonsaiController;
+use App\Http\Controllers\Admin\SpeciesController;
+use App\Http\Controllers\Admin\TipologyController;
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/home', function () {
+    return view('pages.home');
 });
 
 Route::get('/dashboard', function () {
@@ -19,5 +26,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('bonsai', BonsaiController::class)->middleware(['auth', 'verified']);
+Route::resource('species', SpeciesController::class)->middleware(['auth', 'verified']);
+Route::resource('tipology', TipologyController::class)->middleware(['auth', 'verified']);
+
+Route::get('/bonsai/specie/{species}', [BonsaiController::class, 'bySpecie'])->name('bonsai.bySpecie');
+
 
 require __DIR__.'/auth.php';
