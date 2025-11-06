@@ -150,7 +150,7 @@ class BonsaiController extends Controller
         $bonsai->tipologies()->detach();
         $bonsai->delete();
 
-        return redirect()->route('bonsai.bonsai_pages.index')->with('success', 'Bonsai eliminato con successo!');
+        return redirect()->route('bonsai.index')->with('success', 'Bonsai eliminato con successo!');
     }
 
 public function bySpecie(Species $species)

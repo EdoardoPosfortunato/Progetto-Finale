@@ -6,3 +6,7 @@
   min-height: 100vh;
   padding-top: 75px; /* o l'altezza effettiva della tua navbar */
 }
+
+.margin-loading {
+    margin-top: 150px !important;
+}

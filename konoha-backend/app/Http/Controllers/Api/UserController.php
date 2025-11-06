@@ -11,14 +11,24 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+   public function index(Request $request)
+{
+    $query = Bonsai::with(['species', 'tipologies']);
 
-        $bonsais = Bonsai::with(['species', 'tipologies'])->get();
+    if ($request->has('search')) {
+        $search = $request->input('search');
 
-        return response()->json($bonsais);
+        $query->where(function ($q) use ($search) {
+            $q->where('nome', 'like', "%{$search}%")
+              ->orWhere('descrizione', 'like', "%{$search}%");
+        });
     }
+
+    $bonsais = $query->get();
+
+    return response()->json($bonsais);
+}
+
 
     /**
      * Show the form for creating a new resource.

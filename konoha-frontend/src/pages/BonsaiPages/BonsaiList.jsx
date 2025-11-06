@@ -1,11 +1,37 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import RingLoader from "react-spinners/Ringloader";
 
 const BonsaiList = () => {
   const [bonsais, setBonsais] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search");
+
+  useEffect(() => {
+    if (searchQuery === null) {
+      // carica tutti i bonsai
+      axios.get("http://localhost:8000/api/bonsai").then((res) => {
+        setBonsais(res.data);
+        setLoading(false);
+      });
+      return;
+    }
+
+    // altrimenti filtra
+    axios
+      .get("http://localhost:8000/api/bonsai", {
+        params: { search: searchQuery },
+      })
+      .then((res) => {
+        setBonsais(res.data);
+        setLoading(false);
+      });
+  }, [searchQuery]);
 
   useEffect(() => {
     axios
@@ -26,12 +52,32 @@ const BonsaiList = () => {
       });
   }, []);
 
-  if (loading) return <p>Caricamento in corso...</p>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center margin-loading">
+        <RingLoader color="#047624" size={200} />
+      </div>
+    );
+  }
+
   if (error) return <p>Errore: {error}</p>;
 
   return (
     <div>
-      <h2 className="text-center my-5">I Nostri Bonsai</h2>
+     <div className="d-flex justify-content-between align-items-center my-5">
+  <h2 className="text-center flex-grow-1">
+          {searchQuery ? `Risultati per: "${searchQuery}"` : "Tutti i bonsai"}
+        </h2>
+
+        {searchQuery && (
+          <form action="/bonsai" method="get" className="ms-3">
+            <input type="hidden" name="search" value="" />
+            <button type="submit" className="btn btn-outline-secondary">
+              🔄 Azzera ricerca
+            </button>
+          </form>
+        )}
+      </div>
 
       <div className="container">
         <div className="row">
@@ -57,7 +103,10 @@ const BonsaiList = () => {
                       <p className="card-text">
                         Prezzo: <strong>{bonsai.prezzo} $ </strong>
                       </p>
-                      <Link to={`/bonsai/${bonsai.id}`} className="btn btn-outline-primary">
+                      <Link
+                        to={`/bonsai/${bonsai.id}`}
+                        className="btn btn-outline-primary"
+                      >
                         Dettagli
                       </Link>
                     </div>
